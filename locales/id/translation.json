@@ -1,0 +1,53 @@
+{
+    
+    "Global":{
+      "BT01":"Simpan"
+    },
+    "A003G":{
+      "LA01":"Role",
+      "LA02":"Periode",
+      "SW01":{
+        "Yes": "Seluruh Cabang",
+        "No": "Percabang"
+      },
+      "LA03":"Tanggal",
+      "LA04":"Tanggal Sistem"
+    },
+    "A001M":{
+      "LA01":"Ubah Profil",
+      "LA02":"Nama",
+      "LA04":"Panggilan",
+      "BT01":"Simpan",
+      "TB01":{
+        "A001G-01M":"Username must not be empty"
+      }
+    },
+    "A002M":{
+      "LA01":"Ubah Kata Sandi",
+      "LA02":"Kata Sandi Lama",
+      "LA03":"Kata Sandi Baru",
+      "LA04":"Konfirmasi Kata Sandi Lama",
+      "BT01":"Simpan",
+      "TB01":{
+        "A002M-01M":"Username must not be empty"
+      },
+      "TB02":{
+        "A002M-01M":"New password must not be empty",
+        "A002M-01":"New password does not match password police"
+      },
+      "TB03":{
+        "A002M-03M":"Confirm new password must not be empty"
+      }
+
+    },
+    "A003M":{
+      "LA01":"Pengaturan",
+      "LA02":"Baris Perhalaman",
+      "LA03":"Bahasa",
+      "LA04":"Tema",
+      "BT01":"Simpan"
+    }
+
+    
+
+}
