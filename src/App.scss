@@ -1,0 +1,48 @@
+// Styles
+// // CoreUI Icons Set
+// @import '~@coreui/icons/css/coreui-icons.css';
+// // Import Flag Icons Set
+// @import '~flag-icon-css/css/flag-icon.min.css';
+// // Import Font Awesome Icons Set
+// @import '~font-awesome/css/font-awesome.min.css';
+// // Import Simple Line Icons Set
+// @import '~simple-line-icons/css/simple-line-icons.css';
+// // Import Main styles for this application
+// @import './scss/style.scss';
+// // Import handsontable CSS
+// @import '~handsontable/dist/handsontable.full.css';
+// //Import data mapper CSS
+// @import 'components/fieldmapper/fieldMapping.css';
+
+//Import sortable list CSS
+// @import 'components/sortablelist/styles.css';
+// @import '~react-sortable-tree/style.css';
+
+//Import multiselect object CSS
+// @Import '~@kenshooui/react-multi-select/dist/style.css';
+
+// //Import query builder CSS
+// @Import '~react-awesome-query-builder/css/styles.scss';
+// @import '~react-awesome-query-builder/css/compact_styles.scss';
+// @import '~react-awesome-query-builder/css/denormalize.scss';
+// @import '~react-awesome-query-builder/css/reset.scss';
+
+//@import 'views/Adapro/Kerno/css/material.css';
+
+// @import '~react-querybuilder/dist/demo/query-builder.css';
+.tab-list {  border-bottom: 1px solid #ccc;
+    padding-left: 0;
+  }
+  
+  .tab-list-item {
+    display: inline-block;
+    list-style: none;
+    margin-bottom: -1px;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .tab-list-active {
+    background-color: white;
+    border: solid #ccc;
+    border-width: 1px 1px 0 1px;
+  }

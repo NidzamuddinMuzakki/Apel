@@ -1,0 +1,205 @@
+.ContainerFloatLoading{
+    position: absolute;
+    width:100%;
+    height:100%;
+    border:none;
+    background:transparent;
+    left:50%;
+    top:0%;
+    transform:translateX(-50%);
+    animation:fillcuy 5s ease-in-out ;
+    outline: none;
+}
+
+
+@keyframes fillcuy1{
+    from {
+        top:50%;
+      
+      }
+      to {
+        top:0;
+        
+      }
+}
+.floatLoading{
+    position: absolute;
+    width:200%;
+    height:200%;
+    background:#3bbad6;
+    left:50%;
+    top:-10%;
+    outline: none;
+    border: none;
+    transform:translateX(-50%);
+    border-radius:40%;
+    animation:fill 5s ease-in-out ;
+    
+    
+  }
+  @keyframes fillcuy {
+    from {
+      top:50%;
+      transform:translateX(-50%);
+    }
+    to {
+      top:0;
+      transform:translateX(-50%) ;
+    }
+  }
+  @keyframes fill {
+    from {
+      top:50%;
+      transform:translateX(-50%) rotate(0deg);
+    }
+    to {
+      top:-10px;
+      transform:translateX(-50%) rotate(360deg);
+    }
+  }
+  .floatIsi{
+      position: relative;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      outline: none;
+      border: none;
+      justify-content: center;
+      align-items: center;  
+      animation: none !important;
+  }
+  .particle{
+      width: 30px;
+      height: 30px;
+      top: -25%;
+      background:#3bbad6;
+      position: absolute;
+      outline: none;
+      border: none;
+      border-radius: 3em;
+      transform: rotate(-45deg);
+      border-top-right-radius: 0.2em;
+      animation: fall 0.5s cubic-bezier(0.4,0,1,1) infinite;
+  }
+ 
+@keyframes fall{
+    0% {
+        top:-25%;
+    }
+    20% {
+        top:0%;
+    }
+    80% {
+        top:85%;
+    }
+    100% {
+        top:100%;
+    }
+}
+.particle:nth-of-type(2n){
+    width: 20px;
+    height: 20px;
+}
+
+.particle:nth-of-type(3n){
+    width: 30px;
+    height: 30px;
+}
+
+.particle:nth-of-type(1){
+    left:10%;
+    animation-delay: 0.1s;
+}
+.particle:nth-of-type(2){
+    left:60%;
+    animation-delay: 0.5s;
+}
+.particle:nth-of-type(3){
+    left:25%;
+    animation-delay: 0.2s;
+}
+.particle:nth-of-type(4){
+    left:75%;
+    animation-delay: 0.9s;
+}
+.particle:nth-of-type(5){
+    left:35%;
+    animation-delay: 0.7s;
+}
+.particle:nth-of-type(6){
+    left:50%;
+    animation-delay: 0.6s;
+}
+.particle:nth-of-type(7){
+    left:15%;
+    animation-delay: 0.4s;
+}
+.particle:nth-of-type(8){
+    left:30%;
+    animation-delay: 0.3s;
+}
+.particle:nth-of-type(9){
+    left:55%;
+    animation-delay: 0.8s;
+}
+.particle:nth-of-type(10){
+    left:55%;
+    animation-delay: 0.2s;
+}
+.apel{
+    text-align: center;
+    font-family: AlfaSlabOne;
+    font-weight: 400;
+    font-size: 70px;  outline: none;
+    border: none;
+    color: white;
+}
+.desk{
+    text-align: center;
+    font-family: Poppins;  outline: none;
+    border: none;
+    font-size: 20px;
+    font-style: italic;
+    margin-top: 5px;
+    color: white;
+}
+.footer{
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 700;outline: none;
+    border: none;
+  
+    color: white;
+}
+.bubble{
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    outline: none;
+    border: none;
+    margin-bottom: 30px;
+    border-radius: 50%;
+    background: #294C74;
+    animation: bounce 1s  infinite; 
+}
+.bubble:nth-of-type(1){
+    animation-delay: 0s;
+}
+.bubble:nth-of-type(2){
+   
+    animation-delay: 0.25s;
+}
+.bubble:nth-of-type(3){
+    animation-delay: 0.5s;
+}
+
+    @keyframes bounce {
+        0% { transform: translateY(-5px)  }
+        50% { transform: translateY(10px) }
+        100% { transform: translateY(-5px) }
+    }
+

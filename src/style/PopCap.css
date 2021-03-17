@@ -1,0 +1,79 @@
+.popCap{
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+.soal{
+    font-size: 20px;
+  
+    font-family: Poppins;
+    font-weight: 700;
+    color: #3e3e3e;
+    border-radius: 30px;
+}
+.divPopCap{
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+.jawaban{
+    margin-top: 10px;
+    border-radius: 2px;
+    border:2px solid gray;
+    display: flex;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+}
+.labeljawabanCapPop{
+    display: none;
+}
+.jawabanCapPop{
+    width: 90px;
+    outline: none;
+}
+.editFoto{
+    background:  var(--color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    right: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.editButtonSave{
+    background:  var(--color);
+    color: white;
+}
+.editButtonSave:hover{
+    background: var(--colorBgHover);
+}
+.editFoto:hover{
+    background: var(--colorBgHover);
+}
+.XClose{
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-family: Poppins;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 20px;
+}
+.XClose:hover{
+    color:var(--colorBgHover)
+}

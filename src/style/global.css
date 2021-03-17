@@ -1,0 +1,66 @@
+@font-face {
+    font-family: "AlfaSlabOne";
+    src: url("./../fonts/AlfaSlabOne/AlfaSlabOne-Regular.ttf");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PoppinsBold";
+    src: url("./../fonts/Poppinss/Poppins-Medium.ttf");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+.loginButton{
+    background:#3bbad6;
+}
+.loginButton:hover{
+    background:#3bbad6;
+}  
+.retry{
+  width:50px;
+  display:flex;
+  cursor:pointer;
+  justify-content:center;
+  align-items:center;
+  height:20px;
+  border-radius:10px;
+  font-family: Poppinsbold;
+  background:rgba(0,0,0,0.3); 
+  color:white;
+}
+.retry:hover{
+  background: #033444;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.loginButton:hover{
+  background: #188299;
+}
+
+
+
+.drag_box {
+  background-color: lightgray;
+  float: right;
+  width: 120px;
+  min-height: 50px;
+  padding-bottom: 30px;
+  height: auto;
+  margin: 30px;
+}
+.drag_task {
+  background-color: white;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.drop_active {
+  border: 1px dashed red;
+}
+.drag_passif{
+  background-color: gray;
+  margin: 15px;
+  cursor: not-allowed;
+}

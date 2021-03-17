@@ -1,0 +1,276 @@
+.headerApel{
+    font-family:AlfaSlabOne;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 34px;
+    margin-left: 30px;
+    width: 100px;
+    color:var(--color);
+    /* color: #3BBAD6; */
+}
+.headerModule{
+    width:100px;
+    margin-left:10px;
+    cursor:pointer;
+    font-family: AlfaSlabOne;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 34px;
+    color:var(--color);
+    /* color: #3BBAD6; */
+}
+.headerModuleMenu{
+    cursor:pointer; 
+    margin-left:10px;
+    filter: hue-rotate(180deg);
+}
+.RoleHeader{
+    position: relative;
+    margin-top: -5px;
+    margin-right: 10px;
+  
+    color: #575757;
+    
+}
+.RoleHeaderDisable{
+    position: relative;
+    margin-top: -8px;
+    margin-right: 10px;
+    color: rgba(0, 0, 0, 0.3);
+    
+}
+.RoleHeader:hover{
+    /* color: #3BBAD6 !important; */
+    color:var(--color) !important;
+    cursor: pointer;
+
+}
+
+.judulRole{
+    font-family: Poppinsbold;
+font-style: normal;
+font-size: 10px;
+line-height: 15px;
+/* identical to box height */
+
+text-align: center;
+
+
+}
+.iconvalueselected{
+    position: absolute;
+    right: 7px;
+    top:-5px;
+    
+    width: 10px;
+    height: 10px;
+
+}
+.valueRole{
+    display: flex;
+    margin-top: 0px;
+    padding-right: 20px;
+    position: relative;
+    font-family: Poppinsbold;
+font-style: normal;
+max-width: 200px;
+line-height: 15px;
+
+
+}
+.pilihanRoleHeader{
+    
+    position: absolute;
+    top: 50px;
+    max-height: 400px;
+   width: 300px;
+   max-width: 500px;
+    overflow: auto;
+    z-index: 100;
+    resize: horizontal;
+    left:-50px;
+    
+}
+.pilihanBranchHeader{
+    position: absolute;
+    top: 100px;
+    z-index: 90;
+    left:-50px;
+}
+.DropdownRoleHeader:last-child {
+    border-bottom: none;
+  }
+.DropdownRoleHeaderSelected:last-child {
+    border-bottom: none;
+  }
+.DropdownRoleHeader{
+    font-family: Poppinsbold;
+font-style: normal;
+width: 100%;
+
+font-size: 15px;
+
+
+
+/* identical to box height */
+background: white;
+color: black;
+
+border-bottom: 2px solid gray;
+padding: 10px;
+
+}
+.DropdownRoleHeaderSelected{
+    font-family: Poppinsbold;
+font-style: normal;
+width: 100%;
+font-size: 20px;
+line-height: 30px;
+/* identical to box height */
+/* background: #3BBAD6; */
+background: var(--color);
+color: white;
+
+border-bottom: 2px solid gray;
+padding: 10px;
+width: 100%;
+}
+.DropdownRoleHeaderSelected:hover{
+    background:var(--colorBgHover);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    cursor: pointer;
+    color: white;
+}
+.DropdownRoleHeader:hover{
+    background: var(--colorBgHover);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    cursor: pointer;
+    color: white;
+}
+.DropdownBranchHeader{
+    font-family: Poppinsbold;
+font-style: normal;
+
+font-size: 13px;
+
+
+background: white;
+color: black;
+text-align: center;
+border-bottom: 2px solid gray;
+padding: 12px;
+width: 250px;
+}
+.DropdownBranchHeaderSelected{
+    font-family: Poppinsbold;
+    font-style: normal;
+    
+    font-size: 20px;
+   
+  
+    text-align: center;
+    border-bottom: 2px solid gray;
+    padding: 12px;
+    width: 250px;
+
+background: var(--color);
+    /* background: #3BBAD6; */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    cursor: pointer;
+    color: white;
+}
+.DropdownBranchHeader:hover,.DropdownBranchHeaderLight{
+    background:var(--colorBgHover);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    cursor: pointer;
+    color: white;
+    
+}
+.DropdownBranchHeaderSelected:hover{
+    background: var(--colorBgHover);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    cursor: pointer;
+    color: white;
+}
+.DropdownBranchHeaderSelected:last-child {
+    border-bottom: none;
+  }
+  .DropdownBranchHeader:last-child {
+    border-bottom: none;
+  }
+ .pencarian{
+     position: absolute;
+     top:-35px;
+    width: 250px;
+   
+    z-index: 90;
+ } 
+ .inputClass{
+    outline: none;
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+   padding-left: 10px;
+   margin-bottom: 10px;
+   padding-right: 10px;
+ }
+ .pencarian input{
+     outline: none;
+     width: 100%;
+     height: 30px;
+     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    padding-left: 10px;
+    padding-right: 10px;
+ }
+ .headerIconNotif{
+    position:absolute;
+    top:-0px;
+    right:10px; 
+    width:20px;
+    height:20px;
+    background:red;
+    border-radius:50%;
+    border-bottom-left-radius: 10px;
+     display:flex;
+    justify-content:center;
+     align-items:center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+     color:white; 
+     cursor: pointer;
+    font-family:AlfaSlabOne;
+ }
+ .nameHeader{
+    font-family: Poppinsbold;
+    font-style: normal;
+
+    font-size: 13px;
+
+    
+    text-align: center;
+ }
+ .settingHeader{
+    font-family: Poppinsbold;
+    font-style: normal;
+  
+    font-size: 15px;
+   
+    
+    text-align: center;
+ }
+ .settingHeader:hover{
+    /* color: #3BBAD6; */
+    color:var(--color)
+ }
+ .divLogout{
+     position: absolute;
+     top: 10px;
+     right: 10px;
+ }
+ .divLogout:hover{
+    /* color: #3BBAD6; */
+    color:var(--color)
+ }

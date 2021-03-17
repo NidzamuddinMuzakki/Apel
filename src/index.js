@@ -2,12 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './App.scss';
+import './style/global.css'
+import './style/FloatLoading.css'
+import './style/tailwind.css'
+import './style/bootstrap.css'
+import './style/Capthca.css'
+import './style/PopCap.css'
+import './style/Module.css'
+import './style/CustomCheckbox.css'
+import './style/CustomCalender.css'
+import './style/Header.css'
 
+import './style/Corousel.css'
+import './i18n';
+import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import {createStore, combineReducers} from 'redux';
+import {LoginAttempt} from './Redux/Login/maxLoginAttempt'
+import {SelectedRow, Paging, SelectedRowPage} from './Redux/Table/Store'
+import { ChangeFilterRedux} from './Redux/Filter/Store'
+import {LoveMenu,ColorTheme,Param,RoleSelected,ModuleSelected,BranchSelected,PeriodSelected,DateSelected,BranchData,MenuData,DateData,UserData, RoleData,PeriodData,UserSetting  } from "./Redux/Profile/Store";
+const rootReducer =createStore(combineReducers({
+  ChangeFilterRedux,SelectedRowPage,Paging,SelectedRow,LoveMenu,ColorTheme,Param,LoginAttempt,RoleSelected,ModuleSelected,BranchSelected,PeriodSelected,DateSelected,BranchData,MenuData,DateData,UserData, RoleData,PeriodData,UserSetting
+  
+}),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  
+  <Provider store={rootReducer}><App /></Provider>
+,
   document.getElementById('root')
 );
 

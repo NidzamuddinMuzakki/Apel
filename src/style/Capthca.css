@@ -1,0 +1,25 @@
+.label{
+    font-size: 15px;
+    font-family: Poppins;
+    margin-left: 8px;
+   
+    height: 15px;
+}
+.check{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border:2px solid black;
+    cursor: pointer;
+}
+.check1{
+    display: none;
+}
+.icon1 {
+    display: block !important;
+    color: green;
+}
+.icon{
+    color: green;
+    display: none !important;
+}

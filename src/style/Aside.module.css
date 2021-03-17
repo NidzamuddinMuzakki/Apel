@@ -1,0 +1,229 @@
+  .sidebar {
+    position: relative;
+   
+    
+    height: 100%;
+   
+    color:white;
+    background: var(--colorBgMenu);
+
+    /* color:var(--color);
+    background: var(--colorBgMenu); */
+    font-family: Poppinsbold;
+    font-weight: 600;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+   transition: 0.5s;
+  }
+  .sidebarIcon{
+    position: relative;
+  
+    width: 40px;
+    height: 100%;
+  
+    color:white;
+    background: var(--colorBgMenu);
+
+    /* color:var(--color);
+    background: var(--colorBgMenu); */
+    font-family: Poppinsbold;
+    font-weight: 600;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+   transition: 0.5s;
+  }
+  .sidebar_item {
+    display: flex;
+    width:100%;
+    position: relative;
+    white-space: nowrap;
+ 
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sidebar_item::before, .sidebar_item::after{
+    content: '';
+  }
+  .sidebar_item:hover .cuy{
+    opacity: 1;
+    display: block !important;
+  }
+  .sidebar_item_content {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+   margin-left: -10px;
+
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+ 
+  .sideHeaderLover{
+      background: var(--colorBgMenuAll);
+      width: 100%;
+      color: white;
+  }
+  .sideHeaderLoverItemSelected{
+      background:var(--colorBgMenu);
+      height: 100%;
+      display: flex;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+     
+  }
+  .heart {
+   color:red !important;
+   
+    
+  }
+  /* .heart:hover {
+    background-position:right;
+  } */
+  .is_animating {
+
+    transition-duration: 1s;
+    background-position: -2800px 0;
+    /* animation: heart-burst .8s steps(28) ; */
+  }
+  
+  @keyframes heart-burst {
+    from {background-position:left;}
+    to { background-position:right;}
+  }
+  .sideHeaderLoverItemSelected:hover{
+    color:var(--color);
+  
+  }
+  .class{
+    height: 100% !important;
+    background:var(--color)  !important;
+    color: white !important;
+  }
+  .class:hover .cuy{
+    background: var(--colorBgHover) !important;
+    opacity: 1;
+    height: 100%;
+    
+  }
+  .hover:hover .cuy{
+    background: var(--colorBgHover) !important;
+    opacity: 1;
+  }
+ .class:hover{
+  background: var(--colorBgHover) !important;
+  /* background: red !important; */
+ height: 100%;
+  color:white !important
+ }
+  .hover:hover, .hover:hover {
+    background: var(--colorBgHover) !important;
+    color:white !important
+  }
+
+  .sideHeaderLoverItem{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background: var(--colorBgMenuAll);
+
+    align-items: center;
+    cursor: pointer;
+  }
+  .sideHeaderLoverItem:hover{
+      color:var(--color) !important;
+      cursor: pointer;
+  }
+  .cuy{
+  opacity: 0;
+
+  }
+  .cuyHide{
+    opacity: 0;
+  
+    }
+  .sidebar_item_icon {
+    margin-right: 6px;
+  }
+ 
+  .sidebar_item_text {
+    width: 100%;
+    height: 100%;
+    white-space: nowrap !important;
+  }
+  
+  .sidebar_item_expand_arrow {
+    font-size: 1.2rem !important;
+   
+    color:white !important
+  }
+  
+  .sidebar_item_expand_arrow_expanded {
+    color:white !important;
+    font-weight: bold;
+  }
+  .sidebar:hover .hamburger{
+    opacity: 1;
+  }
+  .sidebarIcon:hover .hamburger{
+    opacity: 1;
+  }
+  .hamburger{
+  
+    position:absolute;
+    bottom: 0;
+    z-index: 100;
+    right:5px;
+    width: 30px;
+    cursor: pointer;
+    height: 30px;
+    background: #e5e7eb;
+    border-radius: 50%;
+    outline: none;
+    transition: 0.5s;
+  }
+  .inner_hamburger{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #033444;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.5s;
+  }
+  .arrow{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #033444;
+    cursor: pointer;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.5s;
+  }
+  .sidebar_item_textHide{
+    opacity: 0;
+  }
+  .sidebar_item_expand_arrowHide {
+    opacity: 0;
+  }
+  
+  .sidebar_item_expand_arrow_expandedHide {
+    opacity: 0;
+  }
+  .heartHide{
+    opacity: 0;
+  }
+  .sidebar:hover .dropdown{
+    opacity: 1;
+  }
+  .dropdown{
+    opacity: 1;
+    position: absolute;
+    top:0;
+    left: 30px;
+
+  }
