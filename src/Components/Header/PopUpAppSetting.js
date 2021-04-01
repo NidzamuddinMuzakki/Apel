@@ -16,6 +16,7 @@ import Loading from './../Loading'
 import Radio from '@material-ui/core/Radio';
 import 'react-notifications-component/dist/theme.css'
 import ReactNotification from 'react-notifications-component'
+import AlertDismiss from './../Alert/AlertDismiss'
 // const {t} = useTranslation();
 import Api from './../../ApiSetting'
 import axios from 'axios'
@@ -55,8 +56,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PopUpClearNotif(props){
     const classes = useStyles();
+    const [alert, setAlert] = useState();
+    const [dismiss, setDismiss] = useState(false);
     const {t, i18n} = useTranslation();
     const dispatch = useDispatch();
+    const confirmationDialog = useSelector(state=>state?.Param[0]?.confirmationDialog)
     const UserSetting11 = useSelector(state=>state.UserSetting);
     const [alertSave, setAlertSave] = useState(false);
     const moduleId = useSelector(state=>state.ModuleSelected)
@@ -72,8 +76,10 @@ export default function PopUpClearNotif(props){
       color:'',
       pilihanLanguage:[],
       pilihanTheme:[],
-      rowOfPage:[]
-
+      rowOfPage:[],
+      valid:true,
+      validApi:true,
+      loadingValidate:false
     })
     const onMouseOver=(e)=>{
         let id= ""
@@ -143,89 +149,96 @@ export default function PopUpClearNotif(props){
     }
     const handleSaveSetting= (data)=>{
         if(data=="no"){
+          
           setAlertSave(false)
         }else{
-          setAlertSave(false)
-          setLoading(true)
-          for(const lang of UserSetting11.language){
-            lang.selected="no";
-            if(lang.id==state.language){
-              lang.selected="yes"
-              i18n.changeLanguage(lang.id.toLowerCase());
-            }
-          }
-          for(const theme of UserSetting11.theme){
-            theme.selected="no";
-            if(theme.colorId==state.theme){
-              theme.selected="yes"
-              
-            }
-          }
-          let sasa = 1;
-          for(const rowppage of state.rowOfPage){
-            rowppage.selected = "no"
-            if(stateRadio['state'+sasa] == true){
-              rowppage.selected = "yes"
-              dispatch(ChangeRowPageTable(parseInt(rowppage.value)))
-            }
-            sasa++;
-          }
-         
-          UserSetting11.rowOfPage = state.rowOfPage
- 
-         
-          axios.post(Api()+'/general/user/profile',{
-            "moduleId": "ANT",
-            "userSetting": {
-                "rowOfPage": [
-                    {
-                        "order": "1",
-                        "value": "20",
-                        "selected": "yes"
-                    },
-                    {
-                        "order": "2",
-                        "value": "50",
-                        "selected": "no"				
-                    },
-                    {
-                        "order": "3",
-                        "value": "100",
-                        "selected": "no"				
-                    }
-                ],
-                "language": {
-                    "id": "ID"
-                },
-                "theme": {
-                    "colorId": "02"
+            
+            setAlertSave(false)
+            setLoading(true)
+            for(const lang of UserSetting11.language){
+              lang.selected="no";
+              if(lang.id==state.language){
+                lang.selected="yes"
+                if(lang.id.toLowerCase()=="en"){
+                  i18n.changeLanguage('lang_glo');
+                }else{
+                  i18n.changeLanguage('lang_loc');
                 }
               }
-          
-          },{
-            headers: {
-                'Content-Type': 'application/json',
-                "x-mock-match-request-body":'true'
             }
-          }).then((res)=>{
-            setLoading(false)
-            setAlertSucces(true);
-            setAlertSucces(false);
-          
-            setThemaPallate(false)
-            dispatch(ChangeColorTheme(state.theme))
-            dispatch(UserSetting(UserSetting11))
-            props.onClick(res.data);
-          }).catch(err=>{
-            setLoading(false)
-            setAlertSucces(true);
-            setAlertSucces(false);
-            dispatch(ChangeColorTheme(state.theme))
-            dispatch(UserSetting(UserSetting11))
-            setThemaPallate(false)
-            props.onClick(err.response.data);
-          })
-         
+            for(const theme of UserSetting11.theme){
+              theme.selected="no";
+              if(theme.colorId==state.theme){
+                theme.selected="yes"
+                
+              }
+            }
+            let sasa = 1;
+            for(const rowppage of state.rowOfPage){
+              rowppage.selected = "no"
+              if(stateRadio['state'+sasa] == true){
+                rowppage.selected = "yes"
+                dispatch(ChangeRowPageTable(parseInt(rowppage.value)))
+              }
+              sasa++;
+            }
+           
+            UserSetting11.rowOfPage = state.rowOfPage
+   
+           
+            axios.post(Api()+'/general/user/profile',{
+              "moduleId": "ANT",
+              "userSetting": {
+                  "rowOfPage": [
+                      {
+                          "order": "1",
+                          "value": "20",
+                          "selected": "yes"
+                      },
+                      {
+                          "order": "2",
+                          "value": "50",
+                          "selected": "no"				
+                      },
+                      {
+                          "order": "3",
+                          "value": "100",
+                          "selected": "no"				
+                      }
+                  ],
+                  "language": {
+                      "id": "ID"
+                  },
+                  "theme": {
+                      "colorId": "02"
+                  }
+                }
+            
+            },{
+              headers: {
+                  'Content-Type': 'application/json',
+                  "x-mock-match-request-body":'true'
+              }
+            }).then((res)=>{
+              setLoading(false)
+              setAlertSucces(true);
+              setAlertSucces(false);
+            
+              setThemaPallate(false)
+              dispatch(ChangeColorTheme(state.theme))
+              dispatch(UserSetting(UserSetting11))
+              props.onClick(res.data);
+            }).catch(err=>{
+              setLoading(false)
+              setAlertSucces(true);
+              setAlertSucces(false);
+              dispatch(ChangeColorTheme(state.theme))
+              dispatch(UserSetting(UserSetting11))
+              setThemaPallate(false)
+              props.onClick(err.response.data);
+            })
+           
+            
         }
     }
     const handlepilih = (id, nama)=>{
@@ -240,7 +253,9 @@ export default function PopUpClearNotif(props){
       setAlertSave(false)
       props.onClick();
     }
+   
     useEffect(()=>{
+     
         if(UserSetting11!=""){
             let themeBaru =""
             let langBaru = ""
@@ -272,38 +287,53 @@ export default function PopUpClearNotif(props){
             })
             setState({
               ...state,
+              valid:true,
+              loadingValidate:false,
               pilihanLanguage:UserSetting11.language,
               pilihanTheme:UserSetting11.theme,
               language:langBaru,
               theme:themeBaru,
               color:colorBaru,
+              validApi:true,
               rowOfPage:UserSetting11.rowOfPage
             })
         }
-    }, [UserSetting11])
+    }, [UserSetting11, props.open])
     const handleChange = (e) => {
       if(e.target.name==0){
-        
-        let cuy = JSON.parse(JSON.stringify(state.rowOfPage))
-        cuy[0].value = e.target.value
-        setState({
-          ...state,
-          rowOfPage:cuy
-        })
+        if(e.target.value.length>3){
+
+        }else{
+          let cuy = JSON.parse(JSON.stringify(state.rowOfPage))
+          cuy[0].value = e.target.value
+          setState({
+            ...state,
+            rowOfPage:cuy
+          })
+
+        }
       }else if(e.target.name==1){
+        if(e.target.value.length>3){
+
+        }else{
         let cuy = JSON.parse(JSON.stringify(state.rowOfPage))
         cuy[1].value = e.target.value
         setState({
           ...state,
           rowOfPage:cuy
         })
+      }
       }else if(e.target.name==2){
+        if(e.target.value.length>3){
+
+        }else{
         let cuy = JSON.parse(JSON.stringify(state.rowOfPage))
         cuy[2].value = e.target.value
         setState({
           ...state,
           rowOfPage:cuy
         })
+      }
       }else{
         setState({
           ...state,
@@ -313,40 +343,189 @@ export default function PopUpClearNotif(props){
       }
     };
     const handleClick=()=>{
-      setAlertSave(true)
+      let hmm = state.rowOfPage
+            let cuyasa = false
+            setState({
+              ...state,
+              loadingValidate:true
+            })
+            for(const cek of hmm){
+              if(cek.value.length==0){
+                cuyasa=true
+              }
+            }
+            if(cuyasa==true){
+              setAlertSave(false)
+              setState({
+                ...state, 
+                valid:false,
+                loadingValidate:false
+              })
+              // window.alert("kosong nih")
+            }else{
+              setState({
+                ...state,
+                valid:true,
+                loadingValidate:false
+              })
+              if(confirmationDialog==true){
+                setDismiss(true)
+                setAlert("save")
+              }else{
+                setAlert("save")
+                handleCloseDismiss('yes')
+              }
+            }
+     
+    }
+    const handleCloseDismiss = (handle)=>{
+      if(handle=="yes" && alert=="close"){
+        let themeBaru =""
+        let langBaru = ""
+        let colorBaru = ''
+        for(const lang of UserSetting11.language){
+          if(lang.selected=="yes"){
+            langBaru=lang.id;
+          }
+        }
+        for(const them of UserSetting11.theme){
+          if(them.selected=="yes"){
+            themeBaru=them.colorId;
+            colorBaru=them.colorName
+          }
+        }
+        
+        setState({
+          ...state,
+          pilihanLanguage:UserSetting11.language,
+          pilihanTheme:UserSetting11.theme,
+          language:langBaru,
+          theme:themeBaru,
+          color:colorBaru
+        })
+          props.onClick();
+          setDismiss(false)
+          setAlert('')
+          
+      }else if(handle=="no" && alert=="close"){
+          setDismiss(false)
+          setAlert('')
+      }else if(handle=="no" && alert=="save"){
+        setDismiss(false)
+        setAlert('')
+      }else if(handle=="yes" && alert=="save"){
+        setDismiss(false)
+        setAlert('')
+
+      }
     }
     const handleClose = ()=>{
-      let themeBaru =""
-      let langBaru = ""
-      let colorBaru = ''
-      for(const lang of UserSetting11.language){
-        if(lang.selected=="yes"){
-          langBaru=lang.id;
-        }
+      if(confirmationDialog==true){
+
+        setAlert('close')
+        setDismiss(true)
+      }else{
+        setAlert('close')
+        handleCloseDismiss('yes')
+        setAlertSave(false)
+            setLoading(true)
+            for(const lang of UserSetting11.language){
+              lang.selected="no";
+              if(lang.id==state.language){
+                lang.selected="yes"
+                if(lang.id.toLowerCase()=="en"){
+                  i18n.changeLanguage('lang_glo');
+                }else{
+                  i18n.changeLanguage('lang_loc');
+                }
+              }
+            }
+            for(const theme of UserSetting11.theme){
+              theme.selected="no";
+              if(theme.colorId==state.theme){
+                theme.selected="yes"
+                
+              }
+            }
+            let sasa = 1;
+            for(const rowppage of state.rowOfPage){
+              rowppage.selected = "no"
+              if(stateRadio['state'+sasa] == true){
+                rowppage.selected = "yes"
+                dispatch(ChangeRowPageTable(parseInt(rowppage.value)))
+              }
+              sasa++;
+            }
+           
+            UserSetting11.rowOfPage = state.rowOfPage
+   
+           
+            axios.post(Api()+'/general/user/profile',{
+              "moduleId": "ANT",
+              "userSetting": {
+                  "rowOfPage": [
+                      {
+                          "order": "1",
+                          "value": "20",
+                          "selected": "yes"
+                      },
+                      {
+                          "order": "2",
+                          "value": "50",
+                          "selected": "no"				
+                      },
+                      {
+                          "order": "3",
+                          "value": "100",
+                          "selected": "no"				
+                      }
+                  ],
+                  "language": {
+                      "id": "ID"
+                  },
+                  "theme": {
+                      "colorId": "02"
+                  }
+                }
+            
+            },{
+              headers: {
+                  'Content-Type': 'application/json',
+                  "x-mock-match-request-body":'true'
+              }
+            }).then((res)=>{
+              setLoading(false)
+              
+            
+              setThemaPallate(false)
+              dispatch(ChangeColorTheme(state.theme))
+              dispatch(UserSetting(UserSetting11))
+              props.onClick(res.data);
+            }).catch(err=>{
+              setLoading(false)
+              
+              dispatch(ChangeColorTheme(state.theme))
+              dispatch(UserSetting(UserSetting11))
+              setThemaPallate(false)
+              props.onClick(err.response.data);
+            })
+           
       }
-      for(const them of UserSetting11.theme){
-        if(them.selected=="yes"){
-          themeBaru=them.colorId;
-          colorBaru=them.colorName
-        }
-      }
-      
-      setState({
-        ...state,
-        pilihanLanguage:UserSetting11.language,
-        pilihanTheme:UserSetting11.theme,
-        language:langBaru,
-        theme:themeBaru,
-        color:colorBaru
-      })
-        props.onClick();
     }
+    
     return (
-        <Dialog style={{}} onClose={handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
+        <Dialog PaperProps={{
+          style: { borderRadius: 10 }
+        }} style={{borderRadius:'20px', display:dismiss?'none':'block'}}  aria-labelledby="customized-dialog-title" open={props.open}>
+             <div style={{fontFamily:'Poppinsbold', fontSize:'13px',color:'gray',position:'absolute',zIndex:100,bottom:'10px', left:'10px' }}>
+                <span>A003M</span>
+            </div>
+            <AlertDismiss themeColor={props.themeColor} themeColorBgHover={props.themeColorBgHover} alert={alert} open={dismiss} onClick={handleCloseDismiss}></AlertDismiss>
+           
            {loading?<Loading color={props.themeColorBgHover}></Loading>:null}
-          <AlertSave themeColor={props.themeColor} themeColorBgHover={props.themeColorBgHover}  open={alertSave} onClick={handleSaveSetting}></AlertSave>
+          {/* <AlertSave themeColor={props.themeColor} themeColorBgHover={props.themeColorBgHover}  open={alertSave} onClick={handleSaveSetting}></AlertSave> */}
           {/* <AlertSuccess open={alertSuccess} onClick={handleSuccesOke}></AlertSuccess> */}
-            <div style={{width:'600px',height:'430px' ,padding:'20px',background:'#E5F4F8', position:'relative'}}>
+            <div style={{width:'600px',height:'430px' ,padding:'20px',borderRadius:'10px',background:'#E5F4F8', position:'relative'}}>
             <div className="XClose" style={{'--colorBgHover':props.themeColorBgHover}} onClick={handleClose}>X</div>
             <style jsx>{`
                 input[type='number'] {
@@ -360,20 +539,20 @@ export default function PopUpClearNotif(props){
             `}
             </style>
                 <div style={{textAlign:'left', marginLeft:'80px',marginBottom:'30px' ,fontFamily:'Poppinsbold', fontWeight:'bold', fontSize:'25px'}}>
-                    <span style={{textAlign:'left',color:'gray'}}>{t("A003M.LA01")}</span>
+                    <span style={{textAlign:'left',color:'#575757'}}>{t("lblA003M")}</span>
                 </div>
                 <div style={{display:'flex',justifyContent:'center', position:'relative'}}> 
                    
                 </div>
-               <div style={{marginLeft:'80px', fontFamily:'Poppinsbold', fontSize:'18px'}}>
-                    <label htmlFor="oldpassword">{t("A003M.LA02")}</label>
+               <div style={{marginLeft:'80px',marginTop:'-20px', fontFamily:'Poppinsbold', fontSize:'18px'}}>
+                    <label htmlFor="oldpassword">{t("lblLang")}</label>
                </div>
                 <div id="parentRowOfPage" onMouseOver={onMouseOver} onMouseOut={onMouseOut} style={{display:'flex', position:'relative', justifyContent:'center',width:'400px',marginLeft:'-39px' }}>
                     {state.rowOfPage?state.rowOfPage.map((data, index)=>(
                       <div key={index} style={{display:'block'}}>
-                        <input key={index} pattern="^-?[0-9]\d*\.?\d*$" required onChange={handleChange} style={{paddingLeft:"5px",borderRadius:'5px', border:'1px solid rgba(59, 186, 214, 0.5)',width:'50px',background:stateRadio["state"+(index+1)]==true?props.themeColor:"white", fontFamily:'Poppinsbold'}} type="number" name={index} value={data.value}></input>
+                        <input  key={index} pattern="^-?[0-9]\d*\.?\d*$" required onChange={handleChange} style={{paddingLeft:"5px",borderRadius:'5px',marginRight:'5px' ,border:state.valid==false && state?.rowOfPage[index]?.value.length==0?"2px solid red":'2px solid rgba(59, 186, 214, 0.5)',width:'50px',background:stateRadio["state"+(index+1)]==true?props.themeColor:"white", fontFamily:'Poppinsbold',color:stateRadio["state"+(index+1)]==true?'white':null}} type="number" name={index} value={data.value}></input>
                         <br></br>
-                        <div style={{textAlign:'center', marginTop:'10px'}}>
+                        <div style={{textAlign:'center',marginRight:'5px', marginTop:'10px'}}>
                             <div name={"state"+(index+1)} onClick={e=>onChangeRadio(e,index)} style={{borderRadius:'50%', width:'10px', height:'10px',background:stateRadio["state"+(index+1)]==true?props.themeColor:"white" ,cursor:'pointer',border:"1px solid "+props.themeColor, margin:'auto', display:stateRadio["state"+(index+1)]==true?'block':'none'}}></div>
                         </div>
                       </div>
@@ -381,8 +560,15 @@ export default function PopUpClearNotif(props){
                     
                     
                 </div>
+                {state.valid==false && (state?.rowOfPage[0]?.value.length==0 || state?.rowOfPage[1]?.value.length==0 || state?.rowOfPage[2]?.value.length==0)?
+                <div style={{marginLeft:'80px', marginTop:'0px',fontSize:'12px',fontFamily:'Poppinsbold',color:'red',marginBottom:'10px'}}>
+                <span>{t("VALM01")}</span>
+
+                </div>
+                :null}
+                
                 <div style={{marginLeft:'80px',marginTop:'10px' ,fontFamily:'Poppinsbold', fontSize:'18px'}}>
-                    <label htmlFor="oldpassword">{t("A003M.LA03")}</label>
+                    <label htmlFor="oldpassword">{t("lblLang")}</label>
                </div>
                 <div style={{display:'flex', position:'relative', justifyContent:'center',width:'400px',margin:'auto' }}>
                 
@@ -407,7 +593,7 @@ export default function PopUpClearNotif(props){
                     <div></div> */}
                 </div>
                 <div style={{marginLeft:'80px',marginTop:'10px', fontFamily:'Poppinsbold', fontSize:'18px'}}>
-                    <label htmlFor="oldpassword">{t("A003M.LA04")}</label>
+                    <label htmlFor="oldpassword">{t("lblTheme")}</label>
                </div>
                 <div onClick={themaOnClick} style={{position:'relative',cursor:'pointer' ,justifyContent:'center',width:'400px',margin:'auto' }}>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'white',border:'1px solid rgba(0,0,0,0.3)', padding:'2px', borderRadius:'4px', height:'37px'}}>
@@ -436,7 +622,7 @@ export default function PopUpClearNotif(props){
                 </div>
                 <div style={{marginTop:'30px'}}>
  
-                    <button onClick={handleClick} className="editButtonSave" style={{'--colorBgHover':props.themeColorBgHover, '--color':props.themeColor,fontFamily:'Poppinsbold',color:'white',marginLeft:'410px',borderRadius:'10px' ,border: '1px solid '+props.themeColor, padding:'5px',width: '70px'}}>{t("Global.BT01")}</button>
+                    <button onClick={handleClick} className="editButtonSave" style={{'--colorBgHover':props.themeColorBgHover, '--color':props.themeColor,fontFamily:'Poppinsbold',color:'white',marginLeft:'410px',borderRadius:'10px' ,border: '1px solid '+props.themeColor, padding:'5px',width: '70px'}}>{state.loadingValidate==true?<Icon icon="spinner" pulse /> :t("btnSave")}</button>
                     
                 </div>
             </div>

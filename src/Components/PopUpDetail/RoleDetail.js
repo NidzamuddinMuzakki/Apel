@@ -413,7 +413,7 @@ export default function RoleDetail(props){
                                    
                                     <div className="drag_box1"  style={{width:'570px',borderRadius:"20px", height:'310px', background:'#e5f4f8',marginTop:"10px" ,marginLeft:'5px',}}>
                                     
-                                    <DataGrid onDragOver={handleDragOver} onDrop={handleDropTarget} onClick={handleChangeSelected} data={state.selected} dataSelected={dataSelected} ></DataGrid>
+                                    {state?.selected?.length>0?<DataGrid onDragOver={handleDragOver} onDrop={handleDropTarget} onClick={handleChangeSelected} data={state.selected} dataSelected={dataSelected} ></DataGrid>:null}
                                            
                                                
                                          

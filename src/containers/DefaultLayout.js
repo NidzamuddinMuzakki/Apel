@@ -21,11 +21,13 @@ import 'react-notifications-component/dist/theme.css'
 import ReactNotification from 'react-notifications-component'
 import {ChangeColorTheme,Param,ChangeModuleSelected,ChangeDateSelected,ChangeBranchSelected,ChangePeriodSelected ,ChangeRoleSelected,BranchData, DateData, MenuData,PeriodData,RoleData,UserData,UserSetting} from './../Redux/Profile/Action'
 import { useTranslation } from 'react-i18next';
-import User from './Pages/User';
+
 import AlertTunggu from './../Components/Alert/AlertTunggu'
 
 const Role = lazy(() => import('./Pages/Role'));
 const Branch = lazy(() => import('./Pages/Branch'));
+const UserRole = lazy(() => import('./Pages/UserRole'));
+const UserBranch = lazy(() => import('./Pages/UserBranch'));
 // const BranchMaping = React.lazy(() => import('./../views/Pages/BrancMapping'));
 
 export default function DefaultLayout(props){
@@ -34,6 +36,8 @@ export default function DefaultLayout(props){
     const router = useHistory();
     const dispatch = useDispatch();
     const [token] = useState(localStorage.getItem('token'));
+    const [dataJudul] = useState(localStorage.getItem('judul'))
+    
     const Param1 = useSelector(state=>state.Param)
     const [SelectedLocal] = useState(localStorage.getItem('moduleSelected'))
     const [dataTunggu, setDataTunggu] = useState(false);
@@ -57,7 +61,7 @@ export default function DefaultLayout(props){
         
         timeout = setTimeout(function(){
            setDataTunggu(true)
-           },data);
+           },data?data:600*1000);
       }
      if(Param1!="" ){
       localStorage.setItem('Route', router.location.pathname)
@@ -118,7 +122,13 @@ return ()=>{clearTimeout(timeout) }
     if(UserSetting11!=""){
       for(const data of UserSetting11.language){
         if(data.selected=="yes"){
-          i18n.changeLanguage(data.id.toLowerCase());
+          if(data.id.toLowerCase()=="en"){
+            i18n.changeLanguage("lang_glo");
+
+          }else{
+            i18n.changeLanguage("lang_loc");
+
+          }
         }
       }
       for(const cuy of UserSetting11.theme){
@@ -411,7 +421,17 @@ return ()=>{clearTimeout(timeout) }
                       <Suspense fallback={<div>Loading...</div>}>
                         <section>
                          
-                          {router.location.pathname=="/cred/branch"?<Branch onClick={handleShowNotif}></Branch>:router.location.pathname=="/cred/role"?<Role onClick={handleShowNotif}></Role>:<div style={{textAlign:'center', display:'flex', justifyContent:'center',alignItems:'center',height:"500px",fontFamily:'Poppinsbold',fontSize:"20px"}}>Not Found</div>}
+                          {router.location.pathname=="/cred/branch"?
+                          <Branch onClick={handleShowNotif}></Branch>:router.location.pathname=="/cred/role"?
+                          <Role onClick={handleShowNotif}></Role>:
+                          router.location.pathname=="/cred/usermap/role"?
+                          <UserRole onClick={handleShowNotif}></UserRole>:router.location.pathname=="/cred/usermap/branch"?
+                          <UserBranch onClick={handleShowNotif}></UserBranch>:
+                          <div style={{position:'relative',textAlign:'center', display:'flex', justifyContent:'center',alignItems:'center',height:"500px",fontFamily:'Poppinsbold',fontSize:"20px"}}>Not Found
+                          <div style={{position:'absolute', bottom:'-10px',left:5, fontFamily:'Poppinsbold', color:'#c4c4c4'}}>
+                            {dataJudul=="User Role Mapping"?"A004M":dataJudul=="User Branch Mapping"?"A007M":''}
+                          </div>
+                          </div>}
                         </section>
                       </Suspense>
 

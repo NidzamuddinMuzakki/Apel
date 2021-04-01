@@ -21,17 +21,30 @@ import {useHistory} from 'react-router-dom'
 import Loading from './../Loading'
 import axios from 'axios'
 import Api from './../../ApiSetting'
-function SidebarItem({ depthStep = 10, depth = 0, expanded, item, theme,...rest}) {
+import { useTranslation } from 'react-i18next';
+import { Tooltip } from "@material-ui/core";
+import styled from 'styled-components';
+function SidebarItem({ depthStep = 40, depth, expanded, item, theme,...rest}) {
   const [collapsed, setCollapsed] = React.useState(true);
   const ColorTheme = useSelector(state=>state.ColorTheme)
-
+  const [deptItem,setDeptItem] = useState(depth);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const LoveMenu = useSelector(state=>state.LoveMenu);
   const MenuData1 = useSelector(state=>state.MenuData);
+  const Iicon = styled.div`
+    color:white;
+    &:hover{
+      color:red
+    }
+  `
   const dispatch = useDispatch();
+  useEffect(()=>{
+    setDeptItem(deptItem=>deptItem+0.5)
+  },[])
   const RoleSelected = useSelector(state=>state.RoleSelected);
   const { menuDesc:label, menuUrl,menuId,menuChildren:items, fav,menuIcon:Icon1,menuType, menuParent, onClick: onClickProp } = item;
+  console.log(menuId, deptItem)
   function getFlat(array){
     var out = []
     for(let i in array){
@@ -140,9 +153,9 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, theme,...rest}
       <ExpandMoreIcon style={{color:'white'}} className={styles.sidebar_item_expand_arrow} />
     );
   }else{
-    expandIcon = <div style={{width:'55px', height:'100%'}}></div>
+    expandIcon = <div style={{width:'43px', height:'100%'}}></div>
   }
-
+  
   return (
     <>
       {/* {loading?<Loading color={theme} ></Loading>:null} */}
@@ -155,23 +168,28 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, theme,...rest}
         {...rest}
       >
         <div
-          style={{ paddingLeft: depth * depthStep }}
+          style={{ paddingLeft: deptItem * depthStep }}
           className={styles.sidebar_item_content}
         >
           {/* {Icon1 && <Icon icon={Icon1} className={styles.sidebar_item_icon} fontSize="small" />} */}
           {items && menuParent==""?<Icon icon={"dashboard"} style={{fontSize:'25px'}} className={styles.sidebar_item_icon} />:null}
-          {items && menuParent!=""?<div style={{width:'30px', height:'100%'}}></div>:null}
+          {/* {items && menuParent!=""?<div style={{width:deptItem * depthStep+"px", height:'30px', background:'red'}}></div>:null} */}
+          {menuType=="parent" && menuParent!=""?<div style={{width:deptItem*depthStep, height:'100%'}}></div>:null}
           {expandIcon}
-         
+        
           <div className={styles.sidebar_item_text}>{label}</div>
         </div>
-        <Icon id={"love|"+menuId} style={{color:'red'}}  className={`${styles.sidebar_item_icon} ${styles.cuy}`} icon={loading?'spinner':fav=="yes"?"heart":"heart-o"} spin={loading?true:false}></Icon>
+        <Iicon><Icon id={"love|"+menuId}  className={`${styles.sidebar_item_icon} ${styles.cuy}`} icon={loading?'spinner':fav=="yes"?"heart":"heart-o"} spin={loading?true:false}></Icon></Iicon>
         {/* {menuType=="child" || (!items)?<Icon id={"love|"+menuId} style={{color:'red'}}  className={`${styles.sidebar_item_icon} ${styles.cuy}`} icon={loading?'spinner':fav=="yes"?"heart":"heart-o"} spin={loading?true:false}></Icon>:""} */}
         {/* {expandIcon} */}
       </ListItem>
       <Collapse in={!collapsed} timeout="auto" unmountOnExit>
         {Array.isArray(items) ? (
-          <List disablePadding dense >
+          
+          
+          
+          <List disablePadding dense  >
+            
             
 
             {items.map((subItem, index) => (
@@ -179,20 +197,23 @@ function SidebarItem({ depthStep = 10, depth = 0, expanded, item, theme,...rest}
                 {subItem === "divider" ? (
                   <Divider style={{ margin: "6px 0" }} />
                 ) : (
-                  <div style={{marginLeft:'15px'}}> 
-
-                    
-                    
+                  
+                 
+                 
+                      
+                 
                     <SidebarItem
                          style={{color:'white','--color':ColorTheme?Color[ColorTheme][0]:'','--colorSelected':ColorTheme?Color[ColorTheme][2]:'','--colorBgHover':ColorTheme?Color[ColorTheme][3]:'','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:''}}
                          className={subItem.menuUrl==history.location.pathname?styles.class:styles.hover}
                         //  className={history.location.pathname==subItem.menuUrl?"class":"hover"}
-                     
-                      item={subItem}
+                        depth={deptItem}
+                        item={subItem}
                     />
-                  </div>
+
+                  
                 )}
               </React.Fragment>
+               
             ))}
           </List>
         ) : null}
@@ -206,6 +227,7 @@ function Sidebar({ expanded }) {
   function onClick(e, item) {
     window.alert(JSON.stringify(item, null, 2));
   }
+  const {t}  = useTranslation()
   const [hide, setHide] = useState(false);
   const ColorTheme = useSelector(state=>state.ColorTheme)
   const MenuData = useSelector(state=>state.MenuData);
@@ -293,7 +315,13 @@ function getNestedChildren(arr, parent){
   const handleAllMenuHeader = (e)=>{
     setLove(false)
   }
-  
+  const Iicon = styled.div`
+    color:white;
+    font-size:20px;
+    &:hover{
+      color:red
+    }
+  `
   return (
     <>
   
@@ -310,15 +338,20 @@ function getNestedChildren(arr, parent){
     <div style={{display:hide?"block":'none'}}>
         <div style={{textAlign:"center"}}>
           <div onClick={handleAllMenuHeader}  style={{color:love?ColorTheme?Color[ColorTheme][2]:'':'white',cursor:'pointer',margin:'auto',marginTop:'5px',marginBottom:'5px',width:'50%','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:'','--color':ColorTheme?Color[ColorTheme][0]:'','--colorBgMenuAll':ColorTheme?Color[ColorTheme][2]:''}}>
-            <span >All</span>
+            <span >{t("btnAll")}</span>
           </div>
+          <Tooltip placement="top" title={t("btnFav")} aria-label="add">
           <div onClick={handleLoveMenuHeader}  style={{cursor:'pointer',margin:'auto',marginTop:'5px',marginBottom:'5px',width:'50%','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:'','--color':ColorTheme?Color[ColorTheme][0]:'','--colorBgMenuAll':ColorTheme?Color[ColorTheme][2]:''}}>
             {/* <Icon   icon={love?"heart":"heart-o"}></Icon> */}
         
-              <Icon classname={styles.heart} style={{color:'red', fontSize:'20px'}} icon={love?'heart':'heart-o'}></Icon>
+             <Iicon>
+              <Icon classname={styles.heart} style={{fontSize:'20px'}}  icon={love?'heart':'heart-o'}></Icon>
+               
+            </Iicon> 
               {/* <div className={love?"heart is_animating":"heart"}></div> */}
             
           </div>
+        </Tooltip>
         </div>
         <div>
           <ul>
@@ -333,15 +366,20 @@ function getNestedChildren(arr, parent){
     <div style={{display:hide?"none":"block"}}>
 <div  className={`${styles.sideHeaderLover}`} style={{'--colorBgMenu':ColorTheme?Color[ColorTheme][4]:'','--color':ColorTheme?Color[ColorTheme][0]:'',fontFamily:'Poppinsbold',display:'flex', justifyContent:'space-around',alignItems:'center', height:'30px'}}> 
         <div onClick={handleAllMenuHeader} className={love?styles.sideHeaderLoverItem:styles.sideHeaderLoverItemSelected} style={{marginTop:'5px',marginBottom:'5px',width:'50%','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:'','--color':ColorTheme?Color[ColorTheme][0]:'','--colorBgMenuAll':ColorTheme?Color[ColorTheme][2]:''}}>
-          <span >All</span>
+          <span >{t("btnAll")}</span>
         </div>
+        <Tooltip placement="top" title={t("btnFav")}  arrow>
         <div onClick={handleLoveMenuHeader} className={love?styles.sideHeaderLoverItemSelected:styles.sideHeaderLoverItem} style={{marginTop:'5px',marginBottom:'5px',width:'50%','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:'','--color':ColorTheme?Color[ColorTheme][0]:'','--colorBgMenuAll':ColorTheme?Color[ColorTheme][2]:''}}>
           {/* <Icon   icon={love?"heart":"heart-o"}></Icon> */}
-      
-            <Icon classname={styles.heart} style={{color:'red', fontSize:'20px'}} icon={love?'heart':'heart-o'}></Icon>
+      <Iicon>
+
+            <Icon classname={styles.heart}  style={{fontSize:'20px'}}   icon={love?'heart':'heart-o'}></Icon>
+
+      </Iicon>
             {/* <div className={love?"heart is_animating":"heart"}></div> */}
           
         </div>
+        </Tooltip>
     </div>
    
       <List disablePadding dense>
@@ -352,7 +390,7 @@ function getNestedChildren(arr, parent){
               null
             ) : (
               <SidebarItem
-              
+                depth ={-(0.5)}
                 style={{'--color':ColorTheme?Color[ColorTheme][0]:'','--colorBgHover':ColorTheme?Color[ColorTheme][3]:'','--colorBgMenu':ColorTheme?Color[ColorTheme][4]:''}}
 
                 className={sidebarItem.menuUrl==history.location.pathname?styles.class:styles.hover}

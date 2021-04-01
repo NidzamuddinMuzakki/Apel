@@ -382,8 +382,8 @@ export default function EnhancedTable(props) {
             />
             <TableBody>
               {
-                props.data.map((row, index) => {
-                  const isItemSelected = isSelected(row.menuId);
+                props?.data?.map((row, index) => {
+                  const isItemSelected = isSelected(props.data.menuId);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -394,12 +394,12 @@ export default function EnhancedTable(props) {
                       style={{cursor:'pointer'}}
                       className={classes.tableRow}
                       classes={{ hover: classes.hover, selected:classes.selected }}
-                      onClick={(event) => handleClick(event, row.menuId)}
+                      onClick={(event) => handleClick(event, row?.menuId)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.menuId}
-                      id={row.menuId}
+                      key={row?.menuId}
+                      id={row?.menuId}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -412,16 +412,16 @@ export default function EnhancedTable(props) {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.menuDesc}
+                        {row?.menuDesc}
                       </TableCell>
-                      <TableCell align="right">{row.accessView}</TableCell>
-                      <TableCell align="right">{row.accessCreate}</TableCell>
-                      <TableCell align="right">{row.accessUpdate}</TableCell>
-                      <TableCell align="right">{row.accessDelete}</TableCell>
-                      <TableCell align="right">{row.createdTime}</TableCell>
-                      <TableCell align="right">{row.createdUser}</TableCell>
-                      <TableCell align="right">{row.updatedTime}</TableCell>
-                      <TableCell align="right">{row.updatedUser}</TableCell>
+                      <TableCell align="right">{row?.accessView}</TableCell>
+                      <TableCell align="right">{row?.accessCreate}</TableCell>
+                      <TableCell align="right">{row?.accessUpdate}</TableCell>
+                      <TableCell align="right">{row?.accessDelete}</TableCell>
+                      <TableCell align="right">{row?.createdTime}</TableCell>
+                      <TableCell align="right">{row?.createdUser}</TableCell>
+                      <TableCell align="right">{row?.updatedTime}</TableCell>
+                      <TableCell align="right">{row?.updatedUser}</TableCell>
                     </TableRow>
                   );
                 })}

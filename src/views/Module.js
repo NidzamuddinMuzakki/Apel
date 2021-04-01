@@ -204,6 +204,9 @@ document.onmousemove = function(){
     
     return (
         <>
+         <div style={{fontFamily:'Poppinsbold', fontSize:'20px',position:'fixed',zIndex:100,bottom:'10px', left:'10px' }}>
+                <span>A002G</span>
+            </div>
         {/* themeColor={props.themeColor} themeColorBgHover={props.themeColorBgHover} */}
            <AlertTunggu   open={dataTunggu} onClick={handleSaveSetting}></AlertTunggu>
         {loading?<Loading></Loading>:null}

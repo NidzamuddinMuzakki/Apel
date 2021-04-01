@@ -4,9 +4,10 @@
 
 import Dialog from "@material-ui/core/Dialog"
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 export default function AlertTunggu(props){
     const [waktu, setWaktu] = useState(60);
-
+    
     useEffect(()=>{
         if(props.open==true){
 

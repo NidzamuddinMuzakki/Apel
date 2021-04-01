@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -14,34 +14,40 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import {Icon} from 'rsuite'
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {RiEditLine} from 'react-icons/ri'
 import EditIcon from '@material-ui/icons/Edit';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { VscSourceControl } from "react-icons/vsc";
 import {useSelector,useDispatch} from 'react-redux';
 // import Tabs from  '../tabkomponen/tabs.js';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-
+import AlertDismiss from './../Alert/AlertDismiss'
 import Button from '@material-ui/core/Button';
 
+import {BiTrash} from 'react-icons/bi'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import Step from './../PopUp/Step'
 // import { Button } from 'bootstrap';
 import {ChangeSelectedRow, ChangeRowPageTable} from './../../Redux/Table/Action'
 import Popover from '@material-ui/core/Popover';
-
-
+import { set } from 'lodash';
+import {useTranslation} from 'react-i18next'
+import styled from 'styled-components'
 
 
 
@@ -79,7 +85,8 @@ function stableSort(array, comparator) {
 function EnhancedTableHead(props) {
   const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const [cuy,setCuy] = React.useState([]);
-
+  const {t} = useTranslation();
+ 
 const cekLebarParent = (name,lebarparent)=>{
   let hey = Object.keys(cuy);
   if(hey.findIndex(cek=> cek==name)==-1  && name.toString().includes("resize")){
@@ -126,9 +133,9 @@ const MouseDown = (e)=>{
 }
   let createSortHandler = (property) => (event) => {
     if(event.target.id.toString().includes("resize")){
-     
+      
     }else{
-     
+      props.onClick("order",property)
       onRequestSort(event, property);
 
     }
@@ -138,13 +145,26 @@ const MouseDown = (e)=>{
   const headCells = [];
   let i=0;
   if(props.schema){
-    for(const key of props.schema ){
+    for(const key of props.schemaHeader ){
+      // let hmm = JSON.parse(JSON.stringify(key))
+      // let label = ''
+      // hmm = hmm.split(/(?=[A-Z])/)
+      // for(const cobaloh of hmm){
+      //   if(cobaloh.toUpperCase()=="ID"){
+      //     label = label + cobaloh.charAt(0).toUpperCase() + cobaloh.substring(1).toUpperCase();
+      //   }else{
+      //     label = label + cobaloh.charAt(0).toUpperCase() + cobaloh.substring(1);
+
+      //   }
+      // }
+      // console.log(label)
       if(i==0){
-        headCells.push({ id: 'no', numeric: true, disablePadding: true, label: 'No' })
+        headCells.push({ id: 'no', numeric: true, disablePadding: true, label: t("lblNo") })
   
       }
+    
       else{
-        headCells.push({ id: key, numeric: false, disablePadding: false, label: key })
+        headCells.push({ id: props.schema[i], numeric: false, disablePadding: false, label: t(key) })
       }
       i++;
     }
@@ -187,8 +207,9 @@ const tableSortLeave = (e)=>{
   return (
   
     <TableHead >
+      
       <TableRow >
-        <TableCell style={{boxShadow: "rgba(0, 0, 0, 0.04) 0px 10px 10px",position:'sticky',top:0,background:'#033444', color:'white',zIndex:20}}  padding="checkbox">
+        {props.tab=="all"? <TableCell style={{boxShadow: "rgba(0, 0, 0, 0.04) 0px 10px 10px",position:'sticky',top:0,background:'#033444', color:'white',zIndex:20}}  padding="checkbox">
           <Checkbox
            style={{color:'white', fontFamily:'Poppinsbold'}}
            indeterminateIcon={<RemoveCircleIcon/>}
@@ -199,8 +220,11 @@ const tableSortLeave = (e)=>{
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
-        </TableCell>
-        {headCells.map((headCell) => (
+        </TableCell>:null}
+       
+        {headCells.map((headCell) => {
+          if(headCell.id!="workflowStep"){
+          return(
           <TableCell 
         
           onMouseEnter={tableSortEnter}
@@ -214,12 +238,13 @@ const tableSortLeave = (e)=>{
           >
            <TableSortLabel
               className={classes.sort}
-            
+              style={{color:'white'}}
               active={orderBy === headCell.id}
               direction={orderBy == headCell.id?order:'asc'}
               onClick={createSortHandler(headCell.id)}
 
             >
+
               {headCell.label}
               {/* {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}  >
@@ -233,7 +258,13 @@ const tableSortLeave = (e)=>{
             <div  id={"resize"+headCell.label}  onMouseDown={MouseDown} style={{display:orderBy === headCell.id?'block':'none',position:'absolute',right:10,width:2,top:0,bottom:0,height:"100%", borderRight:'3px solid rgba(0,0,0,0.5)'}}></div>
            
           </TableCell>
-        ))}
+         
+        )}})}
+
+          
+          {props.tab!="all"?<TableCell style={{ fontFamily:'Poppinsbold',boxShadow: "rgba(0, 0, 0, 0.04) 0px 10px 10px",zIndex:20,position:'sticky',top:0,background:'#033444',color:'white', fontWeight:'bold'}} >
+            {'Action'}
+          </TableCell>:null}
       </TableRow>
     </TableHead>
   );
@@ -330,6 +361,7 @@ const useStyles = makeStyles((theme) => ({
     
   },
   tableRow: {
+    position:"relative",
     "&$selected":{
       // backgroundColor: "#c7e0f4"
       backgroundColor: "rgba(204, 219, 232,0.5)",
@@ -401,7 +433,7 @@ const useStyles = makeStyles((theme) => ({
   icon:{
     
     "&:hover":{
-      color:'black',
+      color:"#3bbad6",
     }
   },
   hover: {},
@@ -420,8 +452,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
-
-  const classes = useStyles();
+  const {t} = useTranslation();
+  const classes = useStyles(props);
   const selectedusersetting = useSelector(state =>state.SelectedRow);
   const paging = useSelector(state=>state.Paging);
   const dispatch = useDispatch();
@@ -436,7 +468,35 @@ export default function EnhancedTable(props) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
   const [deleteArray, setdeleteArray] = React.useState([]);
-  
+  const [save, setSave] = useState(false)
+  const [schema, setSchema] = useState();
+  const [alert, setAlert] = useState();
+  const [stateStep, setStateStep] = useState()
+  const [stateDataStep, setStateDataStep] = useState()
+  const [tampil, setTampil] = useState(true)
+  const [stateOpen, setStateOpen]= useState();
+  const ButtonTable = styled.button`
+    padding-right:7px;
+    padding-left:7px;
+    padding-top:2px;
+    padding-bottom:2px;
+    background:${props.themeColor};
+    color:white;
+    border-radius:10px;
+    &:hover {
+      background: ${props.themeColorBgHover}; // <Thing> when hovered
+    }
+  `
+  const handleCloseSave = (handle)=>{
+    if(handle=="no"){
+      
+      setSave(false)
+    }else{
+      props.onClick("DELETE", deleteArray)
+      setSave(false)
+    }
+  }
+
   let deptName = [];
   useEffect(()=>{
     if(reduxComboUser!=""){
@@ -455,10 +515,45 @@ export default function EnhancedTable(props) {
     }
 
   },[reduxComboUser, SelectedRowPageCombo])
+  useEffect(()=>{
+    if(props?.data){
+      for(let i in props.data){
+        setStateOpen({
+          [i]:false
+        })
+      }
+    }
+    if(props.schema){
+      let i = 0
+      let cuy = []
+      for(const hmm of props.schema){
+        if((props.judulSekarang=="005" || props.judulSekarang=="006") && i==3){
+          break
+        }else{
+          cuy.push(hmm)
+        }
+        
+        i++
+      }
+      setSchema(cuy)
+    }
+    if(props.tab!="all"){
+      let hmm = []
+      props.data.map((rows, index)=>{
+        hmm.push(rows.workflowStep)
+      })
+      setStateDataStep(hmm)
+    }
+    if(document.querySelector(".MuiTablePagination-caption").innerHTML=="Rows per page:"){
+      document.querySelector(".MuiTablePagination-caption").innerHTML=t("lblRowofpage")
+    }
+    
+  },[props])
   
   useEffect(()=>{
     setSelected(selectedusersetting);
 },[selectedusersetting])
+
   function createData(userdata) {
     return {userdata};
   }
@@ -739,10 +834,42 @@ const onSaveComboUser = (e)=>{
    
   },[selected])
   const handleyesDelete = (e)=>{
-        props.onClick('DELETE',deleteArray)
-        setdeleteArray([]);
+        
         setAnchorElu(false);
          
+  }
+  const handleClick1 =(event, name)=>{
+    const updatepilih = [];
+    updatepilih.push(name)
+    if(event.target.parentNode.id.toString().includes("view") || event.target.id.toString().includes("view")){
+     
+      
+      props.onClick("VIEW",updatepilih)
+    }else  if(event.target.parentNode.id.toString().includes("action") || event.target.id.toString().includes("action")){
+     
+      
+      props.onClick("ACTION",updatepilih)
+    }
+    else{
+      
+      let hmm = props?.data.findIndex(cuy=>cuy[props?.schema[0]]==name)
+      let cuy = Object.keys(stateOpen)
+      let cuya = ''
+      for(let love of cuy){
+        if(stateOpen[love]==true){
+          cuya = love
+        }
+      }
+      if(cuya==""){
+        setStateOpen({...stateOpen,[hmm]:true})
+
+      }else{
+        setStateOpen({...stateOpen,[hmm]:true,[cuya]:false})
+
+      }
+     
+      
+    }
   }
   const handleClick = (event, name) => {
     if(event.target.parentNode.id.toString().includes("delete.") || event.target.id.toString().includes("delete.")){
@@ -751,7 +878,8 @@ const onSaveComboUser = (e)=>{
       deletepilih.push(name)
       setdeleteArray(deletepilih);
     
-      setAnchorElu(true);
+      setSave(true)
+      setAlert('delete')
      
 
 
@@ -765,7 +893,14 @@ const onSaveComboUser = (e)=>{
       
       props.onClick("EDIT",updatepilih)
       
-    }else if(event.target.parentNode.id.toString().includes("change.") || event.target.id.toString().includes("change.")){
+    }else if(event.target.parentNode.id.toString().includes("detail.") || event.target.id.toString().includes("detail.")){
+      const updatepilih = [];
+      updatepilih.push(name)
+      
+      props.onClick("DETAIL",updatepilih)
+      
+    }
+    else if(event.target.parentNode.id.toString().includes("change.") || event.target.id.toString().includes("change.")){
       const changepilih = [];
       changepilih.push(name)
       
@@ -781,6 +916,11 @@ const onSaveComboUser = (e)=>{
           setOrderBy(oreder);
           props.onClick(changeorder,"orderby")
         }
+    }else if(event.target.parentNode.id.toString().includes("view") || event.target.id.toString().includes("view")){
+      const updatepilih = [];
+      
+      
+      props.onClick("VIEW",event.target.id.split("|")[1])
     }
     else{
       const selectedIndex = selected?.indexOf(name);
@@ -832,7 +972,7 @@ const onSaveComboUser = (e)=>{
   const handleClickCombo = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+  const handleCloseStep =()=>{}
 
 
   const handleCloseCombo = () => {
@@ -866,10 +1006,15 @@ const onSaveComboUser = (e)=>{
   };
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  
-  // console.log(rows)
+  const handleClickAway = ()=>{
+    
+    setStateStep(false)
+  }
+  console.log(stateOpen)
   return (
     <div className={classes.root}>
+    <AlertDismiss themeColor={props.themeColor} themeColorBgHover={props.themeColorBgHover} alert={alert} open={save} onClick={handleCloseSave}></AlertDismiss>
+
       <Paper className={classes.paper}>
       {/* <Tabs>
         <div label="Gator">
@@ -899,6 +1044,9 @@ const onSaveComboUser = (e)=>{
               numSelected={selected?.length?selected.length:0}
               order={order}
               orderBy={orderBy}
+              judulSekarang={props.judulSekarang}
+              tab={props.tab}
+              schemaHeader={props.schemaHeader}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={(event) => handleClick(event,"orderby")}
               rowCount={props.jumlahdata}
@@ -906,6 +1054,7 @@ const onSaveComboUser = (e)=>{
               
             />
             <TableBody style={{fontFamily:'Poppinsbold'}}>
+           
               {
                 
                 props?.data?.map((row, index) =>{
@@ -913,16 +1062,18 @@ const onSaveComboUser = (e)=>{
                   const labelId = `enhanced-table-checkbox-${row[props.schema[0]]}`;
                   
                   return (
+                   
                     <TableRow
                     id={'rowParent'+row[props.schema[0]]}
                     hover
+                    aria-describedby={row[props.schema[0]]}
                     className={classes.tableRow}
                     classes={{ hover: classes.hover, selected:classes.selected }}
-                    style={{cursor:"pointer", background:row.pending=="yes"?"#FDFBCD":null}}
+                    style={{position:'relative',cursor:"pointer", background:row.pending=="yes"?"#FDFBCD":null}}
                     onMouseEnter={handleEnter}
                     // onMouseOver={handleEnter}
                     onMouseLeave={handleLeave}
-                    onClick={(event) => row.pending=="yes"? props.onClick('DETAIL',row[props.schema[0]]):handleClick(event, row[props.schema[0]])}
+                    onClick={(event) => row.pending=="yes"? props.onClick('DETAIL',row[props.schema[0]]):props.tab!="all"?handleClick1(event, row[props.schema[0]]): handleClick(event, row[props.schema[0]])}
                     
                     role="checkbox"
                     aria-checked={isItemSelected}
@@ -931,29 +1082,33 @@ const onSaveComboUser = (e)=>{
                     key={index}
                     selected={isItemSelected}
                     >
-                     <TableCell  padding="checkbox">
-                     {row.pending=="no"?<Checkbox style={{display:hiding}}
+                    
+                       
+                        
+                    
+                     {props.tab=="all"?<TableCell  padding="checkbox">
+                     {row.pending!="yes" ?<Checkbox style={{display:hiding}}
                           checked={isItemSelected}
                           icon={<RadioButtonUncheckedIcon></RadioButtonUncheckedIcon>}
                           checkedIcon={<CheckCircleIcon></CheckCircleIcon>}
                           color = "primary"
                           inputProps={{ 'aria-labelledby': labelId }}
                         />: <img style={{marginLeft:'0px'}} src="/pending.png" />  }
-                      </TableCell>
-                      
-                      {props.schema.map((field, index1)=>{
-                          if(index1==0){
+                      </TableCell>:null}
+            
+                      {props?.schemaHeader?.map((field, index1)=>{
+                          if(index1==0 ){
                             return(
                             <TableCell  key={index1} id={index1}>
                                 <span style={{display:'block'}}>{index+1+(rowsPerPage*(page+1)-rowsPerPage)}</span> 
                                 <div style={{display:"none",position:'relative',height:'100%'}}> 
                               
-                                    {row.pending=="no"?<div style={{position:'absolute',left:-20,top:-13,display:'flex', justifyContent:'center', alignItems:'center'}}>
-                                      <DeleteIcon aria-describedby={"cuyasasasa"} id={"delete."+row[props.schema[0]]} className={classes.icon}  fontSize="default"  color="secondary" />
+                                    {row.pending!="yes" && props.tab=="all"?<div style={{position:'absolute',left:-20,top:-13,display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                      {props.judul=="UserBranch" || props.judul=="UserRole"?null:<Tooltip placement="top" title={t("btnDelete")} aria-label="add" arrow><BiTrash aria-describedby={"cuyasasasa"} style={{fontSize:"20px"}}  id={"delete."+row[props.schema[0]]} className={classes.icon}  fontSize="default"  color="secondary" /></Tooltip>}
                                       
-                                      <EditIcon className={classes.icon} id={"update."+row[props.schema[0]]} fontSize="default"  color="primary"/>
-                                      {/* <VpnKeyIcon className={classes.icon} id={"change."+row[props.schema[0]]} fontSize="default" color='action' /> */}
-                                      
+                                      <Tooltip placement="top" title={t("btnEdit")} arrow><RiEditLine className={classes.icon} id={"update."+row[props.schema[0]]} style={{fontSize:"20px"}} fontSize="default"  color="primary"/></Tooltip>
+                                      {/* {props.judul=="MasterRole" ?<Tooltip placement="top" title={t("btnEditMapping")} aria-label="add" arrow><VscSourceControl className={classes.icon} style={{fontSize:"20px"}} color="default" id={"detail."+row[props.schema[0]]} fontSize="default" /></Tooltip>:null} */}
+                                     
                                     </div>:index+1}
 
                                    
@@ -964,26 +1119,46 @@ const onSaveComboUser = (e)=>{
                            
                             )
                           }
-                          else if(Array.isArray(row[field])){
+                        
+                          else if(index1==2 && props?.tab!="all"){
                             return(
-                              <TableCell key={index1} >
-                                {row[field].length>0?row[field].map(elem=>elem).join(", ").length>10 && !isItemSelected?row[field].map(elem=>elem).join(", ").slice(0,10).concat("..."):row[field].map(elem=>elem).join(", ").length>50?row[field].map(elem=>elem).join(", ").slice(0,50).concat("..."):row[field].map(elem=>elem).join(", "):''} 
-                              </TableCell>
-                            );
-                           
+                              <TableCell style={{position:'relative'}} key={index1} >
+                              {row[field]}
+                              {stateOpen[index]?<div style={{position:'absolute', top:10, background:"transparent"}}>
+                                <div style={{position:"absolute",boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',zIndex:100,left:-22,width:"0px", height:'0px'}}>
+                                  <Icon icon="arrow-left" style={{color:'#3498ff', fontSize:"30px"}}></Icon>
+                                </div>
+                                <div style={{position:"fixed",boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',top:200,width:'300px',zIndex:100, padding:'10px',background:"white", borderRadius:'10px'}}>
+                              {/* <div style={{position:'absolute', top:0,right:5}}>
+                              <Icon icon="close" style={{color:'blue', fontSize:"12px"}}></Icon>
+                              </div> */}
+                              <Step data={row.workflowStep}></Step>
+</div>
+                                </div>
+:null}
+                            {/* {row[field].length>15 && !isItemSelected?row[field].slice(0, 15).concat('...'):row[field].length>50?row[field].slice(0, 50).concat('...'):row[field]} */}
+                            </TableCell>
+
+                            )
                           }
-                          else{
+                          else if(field!="workflowStep"){
+                           
                            return(
                             
-                            <TableCell key={index1} >
-
-                            {row[field].length>15 && !isItemSelected?row[field].slice(0, 15).concat('...'):row[field].length>50?row[field].slice(0, 50).concat('...'):row[field]}
+                            <TableCell style={{position:'relative'}} key={index1} >
+                              {row[field]}
+                            
+                            {/* {row[field].length>15 && !isItemSelected?row[field].slice(0, 15).concat('...'):row[field].length>50?row[field].slice(0, 50).concat('...'):row[field]} */}
                             </TableCell>
 
                            );
                           } 
                       })}
-                     
+                      {props.tab=="workflow"?(
+  <TableCell ><ButtonTable id={"view"} onClick={e=>handleClick1(e, row[props.schema[0]])} >{t('btnView')}</ButtonTable></TableCell>
+                      ):props.tab=="todolist"?(
+                        <TableCell ><ButtonTable id={"action"} onClick={e=>handleClick1(e, row[props.schema[0]])}>{t('btnAction')}</ButtonTable></TableCell>
+                      ):null}
                       {/* <TableCell  >{row.name}</TableCell>
                       
                       <TableCell >{row.password}</TableCell>
@@ -993,8 +1168,11 @@ const onSaveComboUser = (e)=>{
                       <TableCell  >{row.dept}</TableCell>
                    
                       <TableCell >{row.group}</TableCell> */}
-                      
+                      {/* <div style={{position:"absolute", left:'200px', zIndex:200}}>
+                          <span>bhayy</span>
+                      </div> */}
                     </TableRow>
+                  
                   );
                 })}
            
@@ -1002,7 +1180,7 @@ const onSaveComboUser = (e)=>{
           </Table>
         </TableContainer>
         <TablePagination
-        style={{boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"}}
+          style={{boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",position:'relative'}}
           rowsPerPageOptions={comboRowperpage}
           component="div"
           count={props.jumlahdata}
@@ -1012,9 +1190,7 @@ const onSaveComboUser = (e)=>{
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
         
-        <Button className={classes.changeRow} aria-describedby={"changeCombo"} onClick={handleClickCombo} >
-          Change Row
-      </Button>
+       
        <Popover
         id={"changeCombo"}
         open={openCombo}

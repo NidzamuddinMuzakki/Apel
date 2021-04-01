@@ -20,7 +20,7 @@ export default function Capthca(props){
     }
     return (
        <div>
-            <div style={{height:'50px', width:'210px',background:'#f2f2f2', marginTop:'-5px', marginBottom:'10px'}} className="flex justify-center items-center shadow-md rounded-md">
+            <div style={{height:'50px', width:'210px',background:'#f2f2f2', marginTop:'10px', marginBottom:'0px'}} className="flex justify-center items-center shadow-md rounded-md">
                 <div className="flex justify-center items-center">
                     <input  onClick={clone?null:handlePop}  className={clone?"check1":"check"}  name="check"></input>
                     <CheckIcon className={clone?"icon1":"icon"}></CheckIcon>

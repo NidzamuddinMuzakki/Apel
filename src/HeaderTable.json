@@ -1,0 +1,16 @@
+{
+    "005all":["No", "roleId","roleName","createdTime","createdUser","updatedTime","updatedUser"],
+    "005workflow":["No","reqDate","reqNo","reqSender", "roleId","roleName","statusWorkflow","priorityLevel"],
+    "005todolist":["No","reqDate","reqNo","reqSender", "roleId","roleName","note","priorityLevel"],
+    "006all":["No", "branchId","branchName","createdTime","createdUser","updatedTime","updatedUser"],
+    "006workflow":["No","reqDate","reqNo","reqSender", "branchId","branchName","statusWorkflow","priorityLevel"],
+    "006todolist":["No","reqDate","reqNo","reqSender", "branchId","branchName","note","priorityLevel"],
+    "004all":["No","username","nik","fullName","division","department","branches","expiredDate","status","createdTime","createdUser","updatedTime","updatedUser"],
+    "004workflow":["No","reqDate","reqNo","username","fullName","statusWorkflow","priorityLevel"],
+    "004todolist":["No","reqDate","reqNo","reqSender","username","fullName","statusWorkflow","priorityLevel"],
+    "003all":["No","username","nik","fullName","division","department","roles","expiredDate","status","createdTime","createdUser","updatedTime","updatedUser"],
+    "003workflow":["No","reqDate","reqNo","username","fullName","statusWorkflow","priorityLevel"],
+    "003todolist":["No","reqDate","reqNo","reqSender","username","fullName","statusWorkflow","priorityLevel"]
+    
+
+}

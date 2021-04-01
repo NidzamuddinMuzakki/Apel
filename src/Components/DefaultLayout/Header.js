@@ -114,7 +114,8 @@ return () => {
         props.onClick('','dataNotifikasi', data)
         SetPopUpProfile(false);
       }
-      const handleCloseChangePass = ()=>{
+      const handleCloseChangePass = (data)=>{
+        props.onClick('','dataNotifikasi', data)
         SetPopUpChangePass(false);
       }
       const handleOpenChangePass = ()=>{
@@ -639,7 +640,7 @@ return () => {
           }
           
         }
-        console.log(state.periode)
+        
     return (
         <div style={{marginBottom:'2px',boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px'}} className="flex justify-between bg-white  rounded-t-xl py-3 px-2 items-center  ">
    {loading?<Loading color={theme?Color[theme][4]:''}></Loading>:null}
@@ -697,7 +698,7 @@ fontWeight: '600',fontSize: '20px',textAlign: 'center', margin:'auto', padding:'
       
 <div style={{position:'absolute',top:'25px',width:'100px',right:"580px"}}>
   <div onClick={roleOnclick}  style={{'--color': theme?Color[theme][0]:''}} className="RoleHeader"> 
-      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("A003G.LA01")}</span>
+      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("lblRole")}</span>
       <div className="valueRole">
           <span className="valueRoleSelected">{state.role} </span> 
           <div className="iconvalueselected">
@@ -730,7 +731,7 @@ fontWeight: '600',fontSize: '20px',textAlign: 'center', margin:'auto', padding:'
 
 <div style={{position:'absolute',top:'25px',width:'90px',right:"430px"}} >
   <div onClick={periodeOnclick} style={{'--color': theme?Color[theme][0]:''}} className="RoleHeader"> 
-      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("A003G.LA02")}</span>
+      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("lblPeriod")}</span>
       <div className="valueRole">
           <span className="valueRoleSelected">{state.periode}</span> 
           <div className="iconvalueselected">
@@ -764,7 +765,7 @@ fontWeight: '600',fontSize: '20px',textAlign: 'center', margin:'auto', padding:'
     >
 <div style={{position:'absolute',top:'21px',right:"250px"}}>
 
-  <CustomCheckbox checked={SelectDisable} themeColor={theme?Color[theme][0]:''} name="checkBranch" before={t("A003G.SW01.No")} after={t("A003G.SW01.Yes")} onClick={handleCheck}></CustomCheckbox>
+  <CustomCheckbox checked={SelectDisable} themeColor={theme?Color[theme][0]:''} name="checkBranch" before={t("optBankwideNo")} after={t("optBankwideYes")} onClick={handleCheck}></CustomCheckbox>
   <div id="branchClick" onClick={SelectDisable?branchOnclick:null} style={{'--color': theme?Color[theme][0]:''}} className={SelectDisable?"RoleHeader":"RoleHeaderDisable"}> 
       <div className="valueRole">
           <span className="valueRoleSelected">{state.branch}</span> 
@@ -1001,7 +1002,7 @@ margin="dense"
           <NotificationsNoneIcon  fontSize="large"    style={{cursor:'pointer', marginLeft:'10px'}} className="mx-2">
           </NotificationsNoneIcon>
         </div>
-        <Avatar style={{cursor:'pointer', width:'40px', height:'40px'}}  variant="circular" color="primary" onClick={handleClick} alt="Travis Howard" src="/fileName.png" />
+        <Avatar style={{cursor:'pointer', width:'40px', height:'40px'}}  variant="circular" color="primary" onClick={handleClick} alt="Travis Howard" src="./fileName.png" />
         <Popover 
 id={id}
 open={open}
@@ -1023,20 +1024,20 @@ transformOrigin={{
         <br></br>
             <span className="nameHeader" style={{fontWeight:'bold'}}>Selena Gomez</span>
             <br></br>
-            <button onClick={handleOpenProfile}  style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">Profile</button>
+            <button onClick={handleOpenProfile}  style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">{t('btnProfile')}</button>
             <br></br>
-            <button onClick={handleOpenChangePass} style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">Change Passoword</button>
+            <button onClick={handleOpenChangePass} style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">{t('btnChangePass')}</button>
             <br></br>
-            <button onClick={handleOpenAppSet} style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">Application Setting</button>
+            <button onClick={handleOpenAppSet} style={{'--color': theme?Color[theme][0]:''}} className="settingHeader">{t('btnAppSetting')}</button>
             <br></br>
             <div   style={{'--color': theme?Color[theme][0]:''}} className="divLogout">
-              <button style={{'--color': theme?Color[theme][0]:''}}  className="divLogout settingHeader" id="logout" onClick={async (e) => {
+              <button style={{'--color': theme?Color[theme][0]:''}}   className="divLogout settingHeader" id="logout" onClick={async (e) => {
                   e.preventDefault();
                     localStorage.removeItem('token')
                  
                     dispatch(ChangeModuleSelected(''))
                   router.replace('/login')}}
-                  >Logout</button>
+                  >{t("btnLogout")}</button>
 
             </div>
         </div>
@@ -1051,7 +1052,7 @@ transformOrigin={{
     >
 <div style={{marginRight:'50px'}} className="relative">
   <div onClick={roleOnclick}  style={{'--color': theme?Color[theme][0]:''}} className="RoleHeader"> 
-      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("A003G.LA01")}</span>
+      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("lblRole")}</span>
       <div className="valueRole">
           <span className="valueRoleSelected">{state.role}</span> 
           <div className="iconvalueselected">
@@ -1085,7 +1086,7 @@ transformOrigin={{
 
 <div style={{marginRight:'30px', marginTop:'10px'}} className="relative">
   <div onClick={periodeOnclick} style={{'--color': theme?Color[theme][0]:''}} className="RoleHeader"> 
-      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("A003G.LA02")}</span>
+      <span className="judulRole" style={{fontWeight: 'bold'}}>{t("lblPeriod")}</span>
       <div className="valueRole">
           <span className="valueRoleSelected">{state.periode}</span> 
           <div className="iconvalueselected">
@@ -1119,7 +1120,7 @@ transformOrigin={{
     >
 <div style={{marginTop:'10px', marginRight:'30px',}} className="relative">
 
-  <CustomCheckbox checked={SelectDisable} themeColor={theme?Color[theme][0]:''} name="checkBranch" before={t("A003G.SW01.No")} after={t("A003G.SW01.Yes")} onClick={handleCheck}></CustomCheckbox>
+  <CustomCheckbox checked={SelectDisable} themeColor={theme?Color[theme][0]:''} name="checkBranch" before={t("optBankwideNo")} after={t("optBankwideYes")} onClick={handleCheck}></CustomCheckbox>
   <div id="branchClick" onClick={SelectDisable?branchOnclick:null} style={{'--color': theme?Color[theme][0]:''}} className={SelectDisable?"RoleHeader":"RoleHeaderDisable"}> 
       <div className="valueRole">
           <span className="valueRoleSelected">{state.branch}</span> 

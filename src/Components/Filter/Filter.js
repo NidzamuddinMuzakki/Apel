@@ -402,6 +402,21 @@ class DemoQueryBuilder extends Component {
       tree: QbUtils.checkTree(QbUtils.loadTree(queryValue), config),
       config: config
     };
+    componentDidUpdate(){
+     
+     if(this.props.reset==true){
+       
+        this.setState({
+          ...this.state,
+          tree: QbUtils.checkTree(QbUtils.loadTree(JSON.parse(this.props.filter[0].uiJson)), this.state.config),
+          
+        })
+        this.props.onClick(false)
+     }
+       
+      
+      
+    }
     componentWillMount(){
       let fieldss = {}
       for(const lala of this.props.data){
@@ -472,7 +487,12 @@ class DemoQueryBuilder extends Component {
       this.setState({tree: immutableTree, config: config});
 
       const jsonTree = QbUtils.getTree(immutableTree);
-      this.props.onChange(jsonTree)
+      if(this.props.reset==true){
+
+      }else{
+        this.props.onChange(jsonTree)
+
+      }
     
       // `jsonTree` can be saved to backend, and later loaded to `queryValue`
     }

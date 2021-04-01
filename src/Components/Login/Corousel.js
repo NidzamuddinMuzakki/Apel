@@ -21,7 +21,7 @@ export default function Corousel(props){
             <MDBView >
               <img
                 className="d-block"
-                style={{width:'100%', height:'300px', border:'3px solid white'}}
+                style={{width:'100%', height:'30px', border:'3px solid white'}}
                 src={cuy.newsImage.imgUrl}
                 alt={cuy.newsTitle}
               />
